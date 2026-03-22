@@ -3,6 +3,10 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "EnhancedInputSubsystems.h"
+#include "DataAssets/Input/UGRC_DataAsset_InputConfig.h"
+#include "Components/Input/UGRC_InputComponent.h"
+#include "UGRC_GameplayTags.h"
 
 AUGRC_HeroCharacter::AUGRC_HeroCharacter()
 {
@@ -28,7 +32,57 @@ AUGRC_HeroCharacter::AUGRC_HeroCharacter()
 	GetCharacterMovement()->BrakingDecelerationWalking = 2000.f;
 }
 
+void AUGRC_HeroCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+{
+	checkf(InputConfigDataAsset, TEXT("Forgot to assign a valid data asset as input config"));
+	
+	ULocalPlayer* LocalPlayer = GetController<APlayerController>()->GetLocalPlayer();
+	
+	UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(LocalPlayer);
+	check(Subsystem);
+	
+	Subsystem->AddMappingContext(InputConfigDataAsset->DefaultMappingContext, 0);
+	
+	UUGRC_InputComponent* UGRCInputComponent = CastChecked<UUGRC_InputComponent>(PlayerInputComponent);
+	
+	UGRCInputComponent->BindNativeInputAction(InputConfigDataAsset, UGRC_GameplayTags::InputTag_Move, ETriggerEvent::Triggered, this, &AUGRC_HeroCharacter::Input_Move);
+	UGRCInputComponent->BindNativeInputAction(InputConfigDataAsset, UGRC_GameplayTags::InputTag_Look, ETriggerEvent::Triggered, this, &AUGRC_HeroCharacter::Input_Look);
+}
+
 void AUGRC_HeroCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+}
+
+void AUGRC_HeroCharacter::Input_Move(const FInputActionValue& InputActionValue)
+{
+	const FVector2D MovementVector = InputActionValue.Get<FVector2D>();
+	const FRotator MovementRotation(0.f, Controller->GetControlRotation().Yaw, 0.f);
+	
+	if (MovementVector.Y != 0.f)
+	{
+		const FVector ForwardDirection = MovementRotation.RotateVector(FVector::ForwardVector);
+		AddMovementInput(ForwardDirection, MovementVector.Y);
+	}
+	
+	if (MovementVector.X != 0.f)
+	{
+		const FVector RightDirection = MovementRotation.RotateVector(FVector::RightVector);
+		AddMovementInput(RightDirection, MovementVector.X);
+	}
+}
+
+void AUGRC_HeroCharacter::Input_Look(const FInputActionValue& InputActionValue)
+{
+	const FVector2D LookAxisVectorVector = InputActionValue.Get<FVector2D>();
+	
+	if (LookAxisVectorVector.X != 0.f)
+	{
+		AddControllerYawInput(LookAxisVectorVector.X);
+	}
+	
+	if (LookAxisVectorVector.Y != 0.f)
+	{
+		AddControllerPitchInput(LookAxisVectorVector.Y);
+	}
 }
