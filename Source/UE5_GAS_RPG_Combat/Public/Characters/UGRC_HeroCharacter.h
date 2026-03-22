@@ -8,4 +8,7 @@ UCLASS()
 class UE5_GAS_RPG_COMBAT_API AUGRC_HeroCharacter : public AUGRC_BaseCharacter
 {
 	GENERATED_BODY()
+	
+protected:
+	virtual void BeginPlay() override;
 };
