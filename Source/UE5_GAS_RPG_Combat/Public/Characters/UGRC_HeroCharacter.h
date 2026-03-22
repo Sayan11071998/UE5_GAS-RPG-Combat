@@ -4,11 +4,26 @@
 #include "Characters/UGRC_BaseCharacter.h"
 #include "UGRC_HeroCharacter.generated.h"
 
+class UCameraComponent;
+class USpringArmComponent;
+
 UCLASS()
 class UE5_GAS_RPG_COMBAT_API AUGRC_HeroCharacter : public AUGRC_BaseCharacter
 {
 	GENERATED_BODY()
 	
+public:
+	AUGRC_HeroCharacter();
+	
 protected:
 	virtual void BeginPlay() override;
+	
+private:
+#pragma region Components
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<USpringArmComponent> CameraBoom;
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UCameraComponent> FollowCamera;
+#pragma endregion
 };
