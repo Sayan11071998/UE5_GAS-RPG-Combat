@@ -1,5 +1,6 @@
 #include "AbilitySystem/Abilities/UGRC_GameplayAbility.h"
 #include "AbilitySystem/UGRC_AbilitySystemComponent.h"
+#include "Components/Combat/UGRC_PawnCombatComponent.h"
 
 void UUGRC_GameplayAbility::OnGiveAbility(const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilitySpec& Spec)
 {
@@ -27,4 +28,9 @@ void UUGRC_GameplayAbility::EndAbility(const FGameplayAbilitySpecHandle Handle,
 			ActorInfo->AbilitySystemComponent->ClearAbility(Handle);
 		}
 	}
+}
+
+UUGRC_PawnCombatComponent* UUGRC_GameplayAbility::GetPawnCombatComponentFromActorInfo() const
+{
+	return GetAvatarActorFromActorInfo()->FindComponentByClass<UUGRC_PawnCombatComponent>();
 }
