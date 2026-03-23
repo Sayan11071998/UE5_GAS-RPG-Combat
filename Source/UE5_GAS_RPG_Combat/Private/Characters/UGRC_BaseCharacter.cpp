@@ -15,7 +15,7 @@ AUGRC_BaseCharacter::AUGRC_BaseCharacter()
 
 UAbilitySystemComponent* AUGRC_BaseCharacter::GetAbilitySystemComponent() const
 {
-	return GetUUGRC_AbilitySystemComponent();
+	return GetUGRC_AbilitySystemComponent();
 }
 
 void AUGRC_BaseCharacter::PossessedBy(AController* NewController)

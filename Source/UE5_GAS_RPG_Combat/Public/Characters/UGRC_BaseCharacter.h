@@ -32,6 +32,6 @@ protected:
 	TObjectPtr<UUGRC_AttributeSet> UGRC_AttributeSet;
 	
 public:
-	FORCEINLINE TObjectPtr<UUGRC_AbilitySystemComponent> GetUUGRC_AbilitySystemComponent() const { return UGRC_AbilitySystemComponent; }
-	FORCEINLINE TObjectPtr<UUGRC_AttributeSet> GetUUGRC_AttributeSet() const { return UGRC_AttributeSet; }
+	FORCEINLINE TObjectPtr<UUGRC_AbilitySystemComponent> GetUGRC_AbilitySystemComponent() const { return UGRC_AbilitySystemComponent; }
+	FORCEINLINE TObjectPtr<UUGRC_AttributeSet> GetUGRC_AttributeSet() const { return UGRC_AttributeSet; }
 };
