@@ -1,0 +1,1 @@
+#include "DataAssets/StartupData/UGRC_DataAsset_HeroStartupData.h"
