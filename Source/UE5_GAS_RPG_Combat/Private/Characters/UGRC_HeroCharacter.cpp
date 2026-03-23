@@ -7,6 +7,9 @@
 #include "DataAssets/Input/UGRC_DataAsset_InputConfig.h"
 #include "Components/Input/UGRC_InputComponent.h"
 #include "UGRC_GameplayTags.h"
+#include "AbilitySystem/UGRC_AbilitySystemComponent.h"
+
+#include "UGRC_DebugHelper.h"
 
 AUGRC_HeroCharacter::AUGRC_HeroCharacter()
 {
@@ -30,6 +33,18 @@ AUGRC_HeroCharacter::AUGRC_HeroCharacter()
 	GetCharacterMovement()->RotationRate = FRotator(0.f, 500.f, 0.f);
 	GetCharacterMovement()->MaxWalkSpeed = 400.f;
 	GetCharacterMovement()->BrakingDecelerationWalking = 2000.f;
+}
+
+void AUGRC_HeroCharacter::PossessedBy(AController* NewController)
+{
+	Super::PossessedBy(NewController);
+	
+	if (UGRC_AbilitySystemComponent && UGRC_AttributeSet)
+	{
+		const FString ASCText = FString::Printf(TEXT("Owner Actor: %s, Avatar Actor: %s"), *UGRC_AbilitySystemComponent->GetOwnerActor()->GetActorLabel(), *UGRC_AbilitySystemComponent->GetAvatarActor()->GetActorLabel());
+		Debug::Print(TEXT("Ability system component valid. ") + ASCText, FColor::Green);
+		Debug::Print(TEXT("Attribute set valid. ") + ASCText, FColor::Green);
+	}
 }
 
 void AUGRC_HeroCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
