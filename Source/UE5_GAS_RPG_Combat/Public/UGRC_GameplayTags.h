@@ -12,4 +12,7 @@ namespace UGRC_GameplayTags
 	
 	/** Player Tags **/
 	UE5_GAS_RPG_COMBAT_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Weapon_Axe);
+	
+	UE5_GAS_RPG_COMBAT_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Event_Equip_Axe);
+	UE5_GAS_RPG_COMBAT_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Event_Unequip_Axe);
 }
