@@ -24,4 +24,7 @@ namespace UGRC_GameplayTags
 	UE5_GAS_RPG_COMBAT_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Event_Unequip_Axe);
 	
 	UE5_GAS_RPG_COMBAT_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Status_JumpToFinisher);
+	
+	/** Enemy Tags **/
+	UE5_GAS_RPG_COMBAT_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Enemy_Weapon);
 }
