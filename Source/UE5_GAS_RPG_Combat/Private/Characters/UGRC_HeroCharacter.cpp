@@ -37,6 +37,11 @@ AUGRC_HeroCharacter::AUGRC_HeroCharacter()
 	HeroCombatComponent = CreateDefaultSubobject<UUGRC_HeroCombatComponent>(TEXT("HeroCombatComponent"));
 }
 
+TObjectPtr<UUGRC_PawnCombatComponent> AUGRC_HeroCharacter::GetPawnCombatComponent() const
+{
+	return HeroCombatComponent;
+}
+
 void AUGRC_HeroCharacter::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);

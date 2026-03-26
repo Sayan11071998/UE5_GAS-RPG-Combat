@@ -23,6 +23,11 @@ AUGRC_EnemyCharacter::AUGRC_EnemyCharacter()
 	EnemyCombatComponent = CreateDefaultSubobject<UUGRC_EnemyCombatComponent>(TEXT("EnemyCombatComponent"));
 }
 
+TObjectPtr<UUGRC_PawnCombatComponent> AUGRC_EnemyCharacter::GetPawnCombatComponent() const
+{
+	return EnemyCombatComponent;
+}
+
 void AUGRC_EnemyCharacter::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);

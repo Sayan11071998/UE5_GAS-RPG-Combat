@@ -18,6 +18,11 @@ UAbilitySystemComponent* AUGRC_BaseCharacter::GetAbilitySystemComponent() const
 	return GetUGRC_AbilitySystemComponent();
 }
 
+TObjectPtr<UUGRC_PawnCombatComponent> AUGRC_BaseCharacter::GetPawnCombatComponent() const
+{
+	return nullptr;
+}
+
 void AUGRC_BaseCharacter::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);

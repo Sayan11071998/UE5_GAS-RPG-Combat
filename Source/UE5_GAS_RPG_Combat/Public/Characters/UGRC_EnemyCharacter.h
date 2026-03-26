@@ -14,6 +14,10 @@ class UE5_GAS_RPG_COMBAT_API AUGRC_EnemyCharacter : public AUGRC_BaseCharacter
 public:
 	AUGRC_EnemyCharacter();
 	
+	// ~ Begin IUGRC_PawnCombatInterface Interface
+	virtual TObjectPtr<UUGRC_PawnCombatComponent> GetPawnCombatComponent() const override;
+	// ~ End IUGRC_PawnCombatInterface Interface
+	
 protected:
 	// ~ Begin APawn Interface
 	virtual void PossessedBy(AController* NewController) override;
