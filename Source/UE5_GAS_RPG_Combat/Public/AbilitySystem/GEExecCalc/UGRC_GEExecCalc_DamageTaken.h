@@ -11,4 +11,8 @@ class UE5_GAS_RPG_COMBAT_API UUGRC_GEExecCalc_DamageTaken : public UGameplayEffe
 	
 public:
 	UUGRC_GEExecCalc_DamageTaken();
+	
+	// ~ Begin UGameplayEffectExecutionCalculation Interface
+	virtual void Execute_Implementation(const FGameplayEffectCustomExecutionParameters& ExecutionParams, FGameplayEffectCustomExecutionOutput& OutExecutionOutput) const override;
+	// ~ End UGameplayEffectExecutionCalculation Interface
 };
