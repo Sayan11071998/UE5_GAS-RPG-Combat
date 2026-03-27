@@ -32,7 +32,7 @@ UUGRC_HeroCombatComponent* UUGRC_HeroGameplayAbility::GetHeroCombatComponentFrom
 
 FGameplayEffectSpecHandle UUGRC_HeroGameplayAbility::MakeHeroDamageEffectSpecHandle(
 	TSubclassOf<UGameplayEffect> EffectClass, float InWeaponBaseDamage, FGameplayTag InCurrentAttackTypeTag,
-	int32 InCurrentComboCount)
+	int32 InUsedComboCount)
 {
 	check(EffectClass);
 	
@@ -51,7 +51,7 @@ FGameplayEffectSpecHandle UUGRC_HeroGameplayAbility::MakeHeroDamageEffectSpecHan
 	
 	if (InCurrentAttackTypeTag.IsValid())
 	{
-		EffectSpecHandle.Data->SetSetByCallerMagnitude(InCurrentAttackTypeTag, InCurrentComboCount);
+		EffectSpecHandle.Data->SetSetByCallerMagnitude(InCurrentAttackTypeTag, InUsedComboCount);
 	}
 	
 	return EffectSpecHandle;

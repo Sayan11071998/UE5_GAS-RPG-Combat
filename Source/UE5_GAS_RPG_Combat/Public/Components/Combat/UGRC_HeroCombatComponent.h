@@ -15,6 +15,12 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "UGRC|Combat")
 	AUGRC_HeroWeapon* GetHeroCarriedWeaponByTag(FGameplayTag InWeaponTag) const;
 	
+	UFUNCTION(BlueprintCallable, Category = "UGRC|Combat")
+	AUGRC_HeroWeapon* GetHeroCurrentEquippedWeapon() const;
+	
+	UFUNCTION(BlueprintCallable, Category = "UGRC|Combat")
+	float GetHeroCurrentEquippedWeaponDamageLevel(float InLevel) const;
+	
 	// ~ Begin UUGRC_PawnCombatComponent Interface
 	virtual void OnHitTargetActor(AActor* HitActor) override;
 	virtual void OnWeaponPulledFromTargetActor(AActor* InteractedActor) override;

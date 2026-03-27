@@ -25,6 +25,9 @@ namespace UGRC_GameplayTags
 	
 	UE5_GAS_RPG_COMBAT_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Status_JumpToFinisher);
 	
+	UE5_GAS_RPG_COMBAT_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_SetByCaller_AttackType_Light);
+	UE5_GAS_RPG_COMBAT_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_SetByCaller_AttackType_Heavy);
+	
 	/** Enemy Tags **/
 	UE5_GAS_RPG_COMBAT_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Enemy_Weapon);
 	
