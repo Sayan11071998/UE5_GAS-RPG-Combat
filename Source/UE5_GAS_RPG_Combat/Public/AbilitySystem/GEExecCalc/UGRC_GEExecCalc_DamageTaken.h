@@ -8,4 +8,7 @@ UCLASS()
 class UE5_GAS_RPG_COMBAT_API UUGRC_GEExecCalc_DamageTaken : public UGameplayEffectExecutionCalculation
 {
 	GENERATED_BODY()
+	
+public:
+	UUGRC_GEExecCalc_DamageTaken();
 };
