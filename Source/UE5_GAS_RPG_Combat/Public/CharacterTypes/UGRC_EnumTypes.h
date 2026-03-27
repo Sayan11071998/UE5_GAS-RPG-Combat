@@ -16,3 +16,10 @@ enum class EUGRC_ValidType : uint8
 	Valid,
 	Invalid
 };
+
+UENUM()
+enum class EUGRC_SuccessType : uint8
+{
+	Successful,
+	Failed
+};
