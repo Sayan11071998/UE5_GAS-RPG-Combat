@@ -6,6 +6,8 @@
 
 class UBoxComponent;
 
+DECLARE_DELEGATE_OneParam(FOnTargetInteractedDelegate, AActor*)
+
 UCLASS()
 class UE5_GAS_RPG_COMBAT_API AUGRC_WeaponBase : public AActor
 {
@@ -13,6 +15,9 @@ class UE5_GAS_RPG_COMBAT_API AUGRC_WeaponBase : public AActor
 	
 public:	
 	AUGRC_WeaponBase();
+	
+	FOnTargetInteractedDelegate OnWeaponHitTarget;
+	FOnTargetInteractedDelegate OnWeaponPulledFromTarget;
 	
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Weapons")

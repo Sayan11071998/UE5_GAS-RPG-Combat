@@ -36,6 +36,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "UGRC|Combat")
 	void ToggleWeaponCollision(bool bShouldEnable, EUGRC_ToggleDamageType ToggleDamageType = EUGRC_ToggleDamageType::CurrentEquippedWeapon);
 	
+	virtual void OnHitTargetActor(AActor* HitActor);
+	virtual void OnWeaponPulledFromTargetActor(AActor* InteractedActor);
+	
 private:
 	UPROPERTY()
 	TMap<FGameplayTag, AUGRC_WeaponBase*> CharacterCarriedWeaponMap;

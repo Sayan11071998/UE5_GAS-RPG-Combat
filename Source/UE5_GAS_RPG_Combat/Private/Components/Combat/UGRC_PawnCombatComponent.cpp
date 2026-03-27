@@ -2,8 +2,6 @@
 #include "Items/Weapons/UGRC_WeaponBase.h"
 #include "Components/BoxComponent.h"
 
-#include "UGRC_DebugHelper.h"
-
 void UUGRC_PawnCombatComponent::RegisterSpawnedWeapon(FGameplayTag InWeaponTagToRegister,
 	AUGRC_WeaponBase* InWeaponToRegister, bool bRegisterAsEquippedWeapon)
 {
@@ -11,6 +9,9 @@ void UUGRC_PawnCombatComponent::RegisterSpawnedWeapon(FGameplayTag InWeaponTagTo
 	check(InWeaponToRegister);
 	
 	CharacterCarriedWeaponMap.Emplace(InWeaponTagToRegister, InWeaponToRegister);
+	
+	InWeaponToRegister->OnWeaponHitTarget.BindUObject(this, &UUGRC_PawnCombatComponent::OnHitTargetActor);
+	InWeaponToRegister->OnWeaponPulledFromTarget.BindUObject(this, &UUGRC_PawnCombatComponent::OnWeaponPulledFromTargetActor);
 	
 	if (bRegisterAsEquippedWeapon)
 	{
@@ -54,4 +55,12 @@ void UUGRC_PawnCombatComponent::ToggleWeaponCollision(bool bShouldEnable, EUGRC_
 			WeaponToToggle->GetWeaponCollisionBox()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 		}
 	}
+}
+
+void UUGRC_PawnCombatComponent::OnHitTargetActor(AActor* HitActor)
+{
+}
+
+void UUGRC_PawnCombatComponent::OnWeaponPulledFromTargetActor(AActor* InteractedActor)
+{
 }
