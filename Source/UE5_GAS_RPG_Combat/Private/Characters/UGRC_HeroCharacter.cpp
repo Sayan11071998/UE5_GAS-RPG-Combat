@@ -10,6 +10,7 @@
 #include "AbilitySystem/UGRC_AbilitySystemComponent.h"
 #include "DataAssets/StartupData/UGRC_DataAsset_HeroStartupData.h"
 #include "Components/Combat/UGRC_HeroCombatComponent.h"
+#include "Components/UI/UGRC_HeroUIComponent.h"
 
 AUGRC_HeroCharacter::AUGRC_HeroCharacter()
 {
@@ -35,6 +36,22 @@ AUGRC_HeroCharacter::AUGRC_HeroCharacter()
 	GetCharacterMovement()->BrakingDecelerationWalking = 2000.f;
 	
 	HeroCombatComponent = CreateDefaultSubobject<UUGRC_HeroCombatComponent>(TEXT("HeroCombatComponent"));
+	HeroUIComponent = CreateDefaultSubobject<UUGRC_HeroUIComponent>(TEXT("HeroUIComponent"));
+}
+
+TObjectPtr<UUGRC_PawnCombatComponent> AUGRC_HeroCharacter::GetPawnCombatComponent() const
+{
+	return HeroCombatComponent;
+}
+
+TObjectPtr<UUGRC_PawnUIComponent> AUGRC_HeroCharacter::GetPawnUIComponent() const
+{
+	return HeroUIComponent;
+}
+
+TObjectPtr<UUGRC_HeroUIComponent> AUGRC_HeroCharacter::GetHeroUIComponent() const
+{
+	return HeroUIComponent;
 }
 
 void AUGRC_HeroCharacter::PossessedBy(AController* NewController)

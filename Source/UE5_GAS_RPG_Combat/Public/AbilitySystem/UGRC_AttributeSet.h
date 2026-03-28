@@ -2,10 +2,57 @@
 
 #include "CoreMinimal.h"
 #include "AttributeSet.h"
+#include "AbilitySystem/UGRC_AbilitySystemComponent.h"
 #include "UGRC_AttributeSet.generated.h"
+
+class IUGRC_PawnUIInterface;
+
+#define ATTRIBUTE_ACCESSORS(ClassName, PropertyName) \
+GAMEPLAYATTRIBUTE_PROPERTY_GETTER(ClassName, PropertyName) \
+GAMEPLAYATTRIBUTE_VALUE_GETTER(PropertyName) \
+GAMEPLAYATTRIBUTE_VALUE_SETTER(PropertyName) \
+GAMEPLAYATTRIBUTE_VALUE_INITTER(PropertyName)
 
 UCLASS()
 class UE5_GAS_RPG_COMBAT_API UUGRC_AttributeSet : public UAttributeSet
 {
 	GENERATED_BODY()
+	
+public:
+	UUGRC_AttributeSet();
+	
+	// ~ Begin UAttributeSet Interface
+	virtual void PostGameplayEffectExecute(const struct FGameplayEffectModCallbackData &Data) override;
+	// ~ End UAttributeSet Interface
+	
+	UPROPERTY(BlueprintReadOnly, Category = "Health")
+	FGameplayAttributeData CurrentHealth;
+	ATTRIBUTE_ACCESSORS(UUGRC_AttributeSet, CurrentHealth)
+	
+	UPROPERTY(BlueprintReadOnly, Category = "Health")
+	FGameplayAttributeData MaxHealth;
+	ATTRIBUTE_ACCESSORS(UUGRC_AttributeSet, MaxHealth)
+	
+	UPROPERTY(BlueprintReadOnly, Category = "Rage")
+	FGameplayAttributeData CurrentRage;
+	ATTRIBUTE_ACCESSORS(UUGRC_AttributeSet, CurrentRage)
+	
+	UPROPERTY(BlueprintReadOnly, Category = "Rage")
+	FGameplayAttributeData MaxRage;
+	ATTRIBUTE_ACCESSORS(UUGRC_AttributeSet, MaxRage)
+	
+	UPROPERTY(BlueprintReadOnly, Category = "Damage")
+	FGameplayAttributeData AttackPower;
+	ATTRIBUTE_ACCESSORS(UUGRC_AttributeSet, AttackPower)
+	
+	UPROPERTY(BlueprintReadOnly, Category = "Damage")
+	FGameplayAttributeData DefensePower;
+	ATTRIBUTE_ACCESSORS(UUGRC_AttributeSet, DefensePower)
+	
+	UPROPERTY(BlueprintReadOnly, Category = "Damage")
+	FGameplayAttributeData DamageTaken;
+	ATTRIBUTE_ACCESSORS(UUGRC_AttributeSet, DamageTaken)
+	
+private:
+	TWeakInterfacePtr<IUGRC_PawnUIInterface> CachedPawnUIInterface;
 };

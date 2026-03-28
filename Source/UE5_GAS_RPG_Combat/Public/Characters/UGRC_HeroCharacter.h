@@ -9,6 +9,7 @@ class UCameraComponent;
 class USpringArmComponent;
 class UUGRC_HeroCombatComponent;
 class UUGRC_DataAsset_InputConfig;
+class UUGRC_HeroUIComponent;
 struct FInputActionValue;
 
 UCLASS()
@@ -18,6 +19,15 @@ class UE5_GAS_RPG_COMBAT_API AUGRC_HeroCharacter : public AUGRC_BaseCharacter
 	
 public:
 	AUGRC_HeroCharacter();
+	
+	// ~ Begin IUGRC_PawnCombatInterface Interface
+	virtual TObjectPtr<UUGRC_PawnCombatComponent> GetPawnCombatComponent() const override;
+	// ~ End IUGRC_PawnCombatInterface Interface
+	
+	// ~ Begin IUGRC_PawnUIInterface Interface
+	virtual TObjectPtr<UUGRC_PawnUIComponent> GetPawnUIComponent() const override;
+	virtual TObjectPtr<UUGRC_HeroUIComponent> GetHeroUIComponent() const override;
+	// ~ End IUGRC_PawnUIInterface Interface
 	
 protected:
 	// ~ Begin APawn Interface
@@ -37,6 +47,9 @@ private:
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Combat", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UUGRC_HeroCombatComponent> HeroCombatComponent;
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UUGRC_HeroUIComponent> HeroUIComponent;
 #pragma endregion
 	
 #pragma region Inputs

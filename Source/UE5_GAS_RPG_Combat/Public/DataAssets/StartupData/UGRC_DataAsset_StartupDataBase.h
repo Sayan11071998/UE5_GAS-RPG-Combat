@@ -6,6 +6,7 @@
 
 class UUGRC_GameplayAbility;
 class UUGRC_AbilitySystemComponent;
+class UGameplayEffect;
 
 UCLASS()
 class UE5_GAS_RPG_COMBAT_API UUGRC_DataAsset_StartupDataBase : public UDataAsset
@@ -21,6 +22,9 @@ protected:
 	
 	UPROPERTY(EditDefaultsOnly, Category = "StartupData")
 	TArray<TSubclassOf<UUGRC_GameplayAbility>> ReactiveAbilities;
+	
+	UPROPERTY(EditDefaultsOnly, Category = "StartupData")
+	TArray<TSubclassOf<UGameplayEffect>> StartupGameplayEffects;
 	
 	void GrantAbilities(const TArray<TSubclassOf<UUGRC_GameplayAbility>>& InAbilitiesToGive, TObjectPtr<UUGRC_AbilitySystemComponent> InASCToGive, int32 ApplyLevel = 1);
 };
