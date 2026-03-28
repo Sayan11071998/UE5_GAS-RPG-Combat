@@ -23,6 +23,11 @@ TObjectPtr<UUGRC_PawnCombatComponent> AUGRC_BaseCharacter::GetPawnCombatComponen
 	return nullptr;
 }
 
+TObjectPtr<UUGRC_PawnUIComponent> AUGRC_BaseCharacter::GetPawnUIComponent() const
+{
+	return nullptr;
+}
+
 void AUGRC_BaseCharacter::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);

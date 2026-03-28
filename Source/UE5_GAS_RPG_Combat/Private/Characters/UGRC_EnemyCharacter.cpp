@@ -3,6 +3,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Engine/AssetManager.h"
 #include "DataAssets/StartupData/UGRC_DataAsset_EnemyStartupData.h"
+#include "Components/UI/UGRC_EnemyUIComponent.h"
 
 AUGRC_EnemyCharacter::AUGRC_EnemyCharacter()
 {
@@ -19,11 +20,17 @@ AUGRC_EnemyCharacter::AUGRC_EnemyCharacter()
 	GetCharacterMovement()->BrakingDecelerationWalking = 1000.f;
 	
 	EnemyCombatComponent = CreateDefaultSubobject<UUGRC_EnemyCombatComponent>(TEXT("EnemyCombatComponent"));
+	EnemyUIComponent = CreateDefaultSubobject<UUGRC_EnemyUIComponent>(TEXT("EnemyUIComponent"));
 }
 
 TObjectPtr<UUGRC_PawnCombatComponent> AUGRC_EnemyCharacter::GetPawnCombatComponent() const
 {
 	return EnemyCombatComponent;
+}
+
+TObjectPtr<UUGRC_PawnUIComponent> AUGRC_EnemyCharacter::GetPawnUIComponent() const
+{
+	return EnemyUIComponent;
 }
 
 void AUGRC_EnemyCharacter::PossessedBy(AController* NewController)
