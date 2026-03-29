@@ -16,6 +16,10 @@ class UE5_GAS_RPG_COMBAT_API AUGRC_AIController : public AAIController
 public:
 	AUGRC_AIController(const FObjectInitializer& ObjectInitializer);
 	
+	// ~ Begin IGenericTeamAgentInterface Interface
+	virtual ETeamAttitude::Type GetTeamAttitudeTowards(const AActor& Other) const override;
+	// ~ End IGenericTeamAgentInterface Interface
+	
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TObjectPtr<UAIPerceptionComponent> EnemyPerceptionComponent;
