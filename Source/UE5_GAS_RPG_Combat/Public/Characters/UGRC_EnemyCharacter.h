@@ -21,6 +21,7 @@ public:
 	
 	// ~ Begin IUGRC_PawnUIInterface Interface
 	virtual TObjectPtr<UUGRC_PawnUIComponent> GetPawnUIComponent() const override;
+	virtual TObjectPtr<UUGRC_EnemyUIComponent> GetEnemyUIComponent() const override;
 	// ~ End IUGRC_PawnUIInterface Interface
 	
 protected:

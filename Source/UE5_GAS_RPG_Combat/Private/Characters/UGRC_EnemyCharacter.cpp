@@ -33,6 +33,11 @@ TObjectPtr<UUGRC_PawnUIComponent> AUGRC_EnemyCharacter::GetPawnUIComponent() con
 	return EnemyUIComponent;
 }
 
+TObjectPtr<UUGRC_EnemyUIComponent> AUGRC_EnemyCharacter::GetEnemyUIComponent() const
+{
+	return EnemyUIComponent;
+}
+
 void AUGRC_EnemyCharacter::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);

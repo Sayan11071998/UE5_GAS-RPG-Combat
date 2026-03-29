@@ -4,3 +4,8 @@ TObjectPtr<UUGRC_HeroUIComponent> IUGRC_PawnUIInterface::GetHeroUIComponent() co
 {
 	return nullptr;
 }
+
+TObjectPtr<UUGRC_EnemyUIComponent> IUGRC_PawnUIInterface::GetEnemyUIComponent() const
+{
+	return nullptr;
+}
