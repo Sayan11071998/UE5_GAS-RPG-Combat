@@ -7,6 +7,14 @@
 
 class AUGRC_WeaponBase;
 
+UENUM(BlueprintType)
+enum class EUGRC_ToggleDamageType : uint8
+{
+	CurrentEquippedWeapon,
+	LeftHand,
+	RightHand
+};
+
 UCLASS()
 class UE5_GAS_RPG_COMBAT_API UUGRC_PawnCombatComponent : public UUGRC_PawnExtensionComponentBase
 {
@@ -24,6 +32,16 @@ public:
 	
 	UFUNCTION(BlueprintCallable, Category = "UGRC|Combat")
 	AUGRC_WeaponBase* GetCharacterCurrentEquippedWeapon() const;
+	
+	UFUNCTION(BlueprintCallable, Category = "UGRC|Combat")
+	void ToggleWeaponCollision(bool bShouldEnable, EUGRC_ToggleDamageType ToggleDamageType = EUGRC_ToggleDamageType::CurrentEquippedWeapon);
+	
+	virtual void OnHitTargetActor(AActor* HitActor);
+	virtual void OnWeaponPulledFromTargetActor(AActor* InteractedActor);
+	
+protected:
+	UPROPERTY()
+	TArray<AActor*> OverlappedActors;
 	
 private:
 	UPROPERTY()

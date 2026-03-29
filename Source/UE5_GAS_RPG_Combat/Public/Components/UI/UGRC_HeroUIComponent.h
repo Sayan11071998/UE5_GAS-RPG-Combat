@@ -1,0 +1,20 @@
+#pragma once
+
+#include "CoreMinimal.h"
+#include "Components/UI/UGRC_PawnUIComponent.h"
+#include "UGRC_HeroUIComponent.generated.h"
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnEquippedWeaponChangedDelegate, TSoftObjectPtr<UTexture2D>, SoftWeaponIcon);
+
+UCLASS()
+class UE5_GAS_RPG_COMBAT_API UUGRC_HeroUIComponent : public UUGRC_PawnUIComponent
+{
+	GENERATED_BODY()
+	
+public:
+	UPROPERTY(BlueprintAssignable)
+	FOnPercentChangedDelegate OnCurrentRageChanged;
+	
+	UPROPERTY(BlueprintCallable, BlueprintAssignable)
+	FOnEquippedWeaponChangedDelegate OnEquippedWeaponChanged;
+};

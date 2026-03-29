@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "Abilities/GameplayAbility.h"
+#include "CharacterTypes/UGRC_EnumTypes.h"
 #include "UGRC_GameplayAbility.generated.h"
 
 class UUGRC_PawnCombatComponent;
@@ -33,4 +34,9 @@ protected:
 	
 	UFUNCTION(BlueprintPure, Category = "UGRC|Ability")
 	UUGRC_AbilitySystemComponent* GetUGRCAbilitySystemComponentFromActorInfo() const;
+	
+	FActiveGameplayEffectHandle NativeApplyEffectSpecHandleToTarget(AActor* TargetActor, const FGameplayEffectSpecHandle& InSpecHandle);
+	
+	UFUNCTION(BlueprintCallable, Category = "UGRC|Ability", meta = (DisplayName = "Apply Gameplay Effect Spec Handle To Target Actor", ExpandEnumAsExecs = "OutSuccessType"))
+	FActiveGameplayEffectHandle BP_ApplyEffectSpecHandleToTarget(AActor* TargetActor, const FGameplayEffectSpecHandle& InSpecHandle, EUGRC_SuccessType& OutSuccessType);
 };

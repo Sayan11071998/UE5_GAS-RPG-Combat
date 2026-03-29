@@ -3,16 +3,11 @@
 #include "CoreMinimal.h"
 #include "GameplayTagContainer.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
+#include "CharacterTypes/UGRC_EnumTypes.h"
 #include "UGRC_FunctionLibrary.generated.h"
 
 class UUGRC_AbilitySystemComponent;
-
-UENUM()
-enum class EUGRC_ConfirmType : uint8
-{
-	Yes,
-	No
-};
+class UUGRC_PawnCombatComponent;
 
 UCLASS()
 class UE5_GAS_RPG_COMBAT_API UUGRC_FunctionLibrary : public UBlueprintFunctionLibrary
@@ -22,6 +17,7 @@ class UE5_GAS_RPG_COMBAT_API UUGRC_FunctionLibrary : public UBlueprintFunctionLi
 public:
 	static TObjectPtr<UUGRC_AbilitySystemComponent> NativeGetWarriorASCFromActor(TObjectPtr<AActor> InActor);
 	static bool NativeDoesActorHaveTag(TObjectPtr<AActor> InActor, FGameplayTag TagToCheck);
+	static TObjectPtr<UUGRC_PawnCombatComponent> NativeGetPawnCombatComponentFromActor(TObjectPtr<AActor> InActor);
 	
 	UFUNCTION(BlueprintCallable, Category = "UGRC|FunctionLibrary")
 	static void AddGameplayTagToActorIfNone(AActor* InActor, FGameplayTag TagToAdd);
@@ -31,4 +27,7 @@ public:
 	
 	UFUNCTION(BlueprintCallable, Category = "UGRC|FunctionLibrary", meta =(DisplayName = "Does Actor Have Tag", ExpandEnumAsExecs = "OutConfirmType"))
 	static void BP_DoesActorHaveTag(AActor* InActor, FGameplayTag TagToCheck, EUGRC_ConfirmType& OutConfirmType);
+	
+	UFUNCTION(BlueprintCallable, Category = "UGRC|FunctionLibrary", meta =(DisplayName = "Get Pawn Combat Component From Actor", ExpandEnumAsExecs = "OutValidType"))
+	static UUGRC_PawnCombatComponent* BP_GetPawnCombatComponentFromActor(AActor* InActor, EUGRC_ValidType& OutValidType);
 };
