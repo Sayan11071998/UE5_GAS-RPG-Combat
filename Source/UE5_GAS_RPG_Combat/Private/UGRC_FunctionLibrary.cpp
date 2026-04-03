@@ -4,6 +4,7 @@
 #include "Interfaces/UGRC_PawnCombatInterface.h"
 #include "GenericTeamAgentInterface.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "UGRC_GameplayTags.h"
 
 TObjectPtr<UUGRC_AbilitySystemComponent> UUGRC_FunctionLibrary::NativeGetWarriorASCFromActor(TObjectPtr<AActor> InActor)
 {
@@ -106,5 +107,22 @@ FGameplayTag UUGRC_FunctionLibrary::ComputeHitReactDirectionTag(AActor* InAttack
 		OutAngleDifference *= -1.f;
 	}
 	
-	return FGameplayTag();
+	if (OutAngleDifference >= -45.f && OutAngleDifference <= 45.f)
+	{
+		return UGRC_GameplayTags::Shared_Status_HitReact_Front;
+	}
+	else if (OutAngleDifference < -45.f && OutAngleDifference >= -135.f)
+	{
+		return UGRC_GameplayTags::Shared_Status_HitReact_Left;
+	}
+	else if (OutAngleDifference < -135.f || OutAngleDifference > 135.f)
+	{
+		return UGRC_GameplayTags::Shared_Status_HitReact_Back;
+	}
+	else if (OutAngleDifference > 45.f && OutAngleDifference <= 135.f)
+	{
+		return UGRC_GameplayTags::Shared_Status_HitReact_Right;
+	}
+	
+	return UGRC_GameplayTags::Shared_Status_HitReact_Front;
 }
