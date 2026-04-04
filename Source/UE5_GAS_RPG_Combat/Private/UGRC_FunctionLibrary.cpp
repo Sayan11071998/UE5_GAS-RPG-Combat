@@ -6,8 +6,6 @@
 #include "Kismet/KismetMathLibrary.h"
 #include "UGRC_GameplayTags.h"
 
-#include "UGRC_DebugHelper.h"
-
 TObjectPtr<UUGRC_AbilitySystemComponent> UUGRC_FunctionLibrary::NativeGetWarriorASCFromActor(TObjectPtr<AActor> InActor)
 {
 	check(InActor);
@@ -134,9 +132,6 @@ bool UUGRC_FunctionLibrary::IsValidBlock(AActor* InAttacker, AActor* InDefender)
 	check(InAttacker && InDefender);
 	
 	const float DotResult = FVector::DotProduct(InAttacker->GetActorForwardVector(), InDefender->GetActorForwardVector());
-	
-	// const FString DebugString = FString::Printf(TEXT("Dot Result: %f %s"), DotResult, DotResult < -0.1f ? TEXT("Valid Block") : TEXT("InValif Block"));
-	// Debug::Print(DebugString, DotResult < 0.f ? FColor::Green : FColor::Red);
 	
 	return DotResult < -0.1f;
 }
