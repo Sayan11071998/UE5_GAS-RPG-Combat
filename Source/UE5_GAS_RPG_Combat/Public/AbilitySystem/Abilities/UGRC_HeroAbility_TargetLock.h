@@ -4,6 +4,7 @@
 #include "AbilitySystem/Abilities/UGRC_HeroGameplayAbility.h"
 #include "UGRC_HeroAbility_TargetLock.generated.h"
 
+class UInputMappingContext;
 class UUGRC_WidgetBase;
 
 UCLASS()
@@ -27,9 +28,12 @@ private:
 	void DrawTargetLockWidget();
 	void SetTargetLockWidgetPosition();
 	void InitTargetLockMovement();
+	void InitTargetLockMappingContext();
+	
 	void CancelTargetLockAbility();
 	void Cleanup();
 	void ResetTargetLockMovement();
+	void ResetTargetLockMappingContext();
 	
 	UPROPERTY(EditDefaultsOnly, Category = "TargetLock")
 	float BoxTraceDistance = 5000.f;
@@ -51,6 +55,9 @@ private:
 	
 	UPROPERTY(EditDefaultsOnly, Category = "TargetLock")
 	float TargetLockMaxWalkSpeed = 150.f;
+	
+	UPROPERTY(EditDefaultsOnly, Category = "TargetLock")
+	TObjectPtr<UInputMappingContext> TargetLockMappingContext;
 	
 	UPROPERTY()
 	TArray<AActor*> AvailableActorsToLock;
