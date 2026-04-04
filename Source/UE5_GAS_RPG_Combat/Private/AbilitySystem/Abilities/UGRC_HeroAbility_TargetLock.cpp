@@ -10,12 +10,14 @@
 #include "Components/SizeBox.h"
 #include "UGRC_FunctionLibrary.h"
 #include "UGRC_GameplayTags.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 void UUGRC_HeroAbility_TargetLock::ActivateAbility(const FGameplayAbilitySpecHandle Handle,
 	const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo,
 	const FGameplayEventData* TriggerEventData)
 {
 	TryLockOnTarget();
+	InitTargetLockMovement();
 	
 	Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);
 }
@@ -24,6 +26,7 @@ void UUGRC_HeroAbility_TargetLock::EndAbility(const FGameplayAbilitySpecHandle H
 	const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo,
 	bool bReplicateEndAbility, bool bWasCancelled)
 {
+	ResetTargetLockMovement();
 	Cleanup();
 	
 	Super::EndAbility(Handle, ActorInfo, ActivationInfo, bReplicateEndAbility, bWasCancelled);
@@ -173,6 +176,13 @@ void UUGRC_HeroAbility_TargetLock::SetTargetLockWidgetPosition()
 	DrawnTargetLockWidget->SetPositionInViewport(ScreenPosition, false);
 }
 
+void UUGRC_HeroAbility_TargetLock::InitTargetLockMovement()
+{
+	CachedDefaultMaxWalkSpeed = GetHeroCharacterFromActorInfo()->GetCharacterMovement()->MaxWalkSpeed;
+	
+	GetHeroCharacterFromActorInfo()->GetCharacterMovement()->MaxWalkSpeed = TargetLockMaxWalkSpeed;
+}
+
 void UUGRC_HeroAbility_TargetLock::CancelTargetLockAbility()
 {
 	CancelAbility(GetCurrentAbilitySpecHandle(), GetCurrentActorInfo(), GetCurrentActivationInfo(), true);
@@ -190,4 +200,13 @@ void UUGRC_HeroAbility_TargetLock::Cleanup()
 	
 	DrawnTargetLockWidget = nullptr;
 	TargetLockWidgetSize = FVector2D::ZeroVector;
+	CachedDefaultMaxWalkSpeed = 0.f;
+}
+
+void UUGRC_HeroAbility_TargetLock::ResetTargetLockMovement()
+{
+	if (CachedDefaultMaxWalkSpeed > 0.f)
+	{
+		GetHeroCharacterFromActorInfo()->GetCharacterMovement()->MaxWalkSpeed = CachedDefaultMaxWalkSpeed;
+	}
 }
