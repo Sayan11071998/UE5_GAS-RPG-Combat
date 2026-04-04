@@ -20,20 +20,24 @@ void UUGRC_EnemyCombatComponent::OnHitTargetActor(AActor* HitActor)
 		bIsValidBlock = UUGRC_FunctionLibrary::IsValidBlock(GetOwningPawn(), HitActor);
 	}
 	
-	FGameplayEventData EentData;
-	EentData.Instigator = GetOwningPawn();
-	EentData.Target = HitActor;
+	FGameplayEventData EventData;
+	EventData.Instigator = GetOwningPawn();
+	EventData.Target = HitActor;
 	
 	if (bIsValidBlock)
 	{
-		// TODO: Handle Successful Block
+		UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(
+			HitActor,
+			UGRC_GameplayTags::Player_Event_SuccessfulBlock,
+			EventData
+		);
 	}
 	else
 	{
 		UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(
 			GetOwningPawn(),
 			UGRC_GameplayTags::Shared_Event_MeleeHit,
-			EentData
+			EventData
 		);
 	}
 }
