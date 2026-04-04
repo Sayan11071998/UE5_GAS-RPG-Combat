@@ -22,6 +22,7 @@ private:
 	void GetAvailableActorsToLock();
 	TObjectPtr<AActor> GetNearestTargetFromAvailableActors(const TArray<AActor*>& InAvailableActors);
 	void DrawTargetLockWidget();
+	void SetTargetLockWidgetPosition();
 	void CancelTargetLockAbility();
 	void Cleanup();
 	
@@ -48,4 +49,7 @@ private:
 	
 	UPROPERTY()
 	TObjectPtr<UUGRC_WidgetBase> DrawnTargetLockWidget;
+	
+	UPROPERTY()
+	FVector2D TargetLockWidgetSize = FVector2D::ZeroVector;
 };

@@ -4,6 +4,9 @@
 #include "Kismet/GameplayStatics.h"
 #include "Widgets/UGRC_WidgetBase.h"
 #include "Controllers/UGRC_HeroController.h"
+#include "Blueprint/WidgetLayoutLibrary.h"
+#include "Blueprint/WidgetTree.h"
+#include "Components/SizeBox.h"
 
 void UUGRC_HeroAbility_TargetLock::ActivateAbility(const FGameplayAbilitySpecHandle Handle,
 	const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo,
@@ -38,6 +41,7 @@ void UUGRC_HeroAbility_TargetLock::TryLockOnTarget()
 	if (CurrentLockedActor)
 	{
 		DrawTargetLockWidget();
+		SetTargetLockWidgetPosition();
 	}
 	else
 	{
@@ -97,6 +101,42 @@ void UUGRC_HeroAbility_TargetLock::DrawTargetLockWidget()
 		check(DrawnTargetLockWidget);
 		DrawnTargetLockWidget->AddToViewport();
 	}
+}
+
+void UUGRC_HeroAbility_TargetLock::SetTargetLockWidgetPosition()
+{
+	if (!DrawnTargetLockWidget || !CurrentLockedActor)
+	{
+		CancelTargetLockAbility();
+		return;
+	}
+	
+	FVector2D ScreenPosition;
+	
+	UWidgetLayoutLibrary::ProjectWorldLocationToWidgetPosition(
+		GetHeroControllerFromActorInfo(),
+		CurrentLockedActor->GetActorLocation(),
+		ScreenPosition,
+		true
+	);
+	
+	if (TargetLockWidgetSize == FVector2D::ZeroVector)
+	{
+		DrawnTargetLockWidget->WidgetTree->ForEachWidget(
+		[this](UWidget* FoundWidget)
+			{
+				if (USizeBox* FoundSizeBox = Cast<USizeBox>(FoundWidget))
+				{
+					TargetLockWidgetSize.X = FoundSizeBox->GetWidthOverride();
+					TargetLockWidgetSize.Y = FoundSizeBox->GetHeightOverride();
+				}
+			}
+		);
+	}
+	
+	ScreenPosition -= TargetLockWidgetSize / 2.f;
+	
+	DrawnTargetLockWidget->SetPositionInViewport(ScreenPosition, false);
 }
 
 void UUGRC_HeroAbility_TargetLock::CancelTargetLockAbility()
