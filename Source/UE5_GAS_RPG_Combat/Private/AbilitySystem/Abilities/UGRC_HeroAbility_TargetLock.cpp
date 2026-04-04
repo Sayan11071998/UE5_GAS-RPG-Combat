@@ -2,6 +2,7 @@
 #include "Kismet/KismetSystemLibrary.h"
 #include "Characters/UGRC_HeroCharacter.h"
 #include "Kismet/GameplayStatics.h"
+#include "Kismet/KismetMathLibrary.h"
 #include "Widgets/UGRC_WidgetBase.h"
 #include "Controllers/UGRC_HeroController.h"
 #include "Blueprint/WidgetLayoutLibrary.h"
@@ -40,6 +41,23 @@ void UUGRC_HeroAbility_TargetLock::OnTargetLockTick(float DeltaTime)
 	}
 	
 	SetTargetLockWidgetPosition();
+	
+	const bool bShouldOverrideRotation = !UUGRC_FunctionLibrary::NativeDoesActorHaveTag(GetHeroCharacterFromActorInfo(), UGRC_GameplayTags::Player_Status_Rolling) &&
+		!UUGRC_FunctionLibrary::NativeDoesActorHaveTag(GetHeroCharacterFromActorInfo(), UGRC_GameplayTags::Player_Status_Blocking);
+	
+	if (bShouldOverrideRotation)
+	{
+		const FRotator LookAtRot = UKismetMathLibrary::FindLookAtRotation(
+			GetHeroCharacterFromActorInfo()->GetActorLocation(),
+			CurrentLockedActor->GetActorLocation()
+		);
+		
+		const FRotator CurrentControlRot = GetHeroControllerFromActorInfo()->GetControlRotation();
+		const FRotator TargetRot = FMath::RInterpTo(CurrentControlRot, LookAtRot, DeltaTime, TargetLockRotationInterpSpeed);
+		
+		GetHeroControllerFromActorInfo()->SetControlRotation(FRotator(TargetRot.Pitch, TargetRot.Yaw, 0.f));
+		GetHeroCharacterFromActorInfo()->SetActorRotation(FRotator(0.f, TargetRot.Yaw, 0.f));
+	}
 }
 
 void UUGRC_HeroAbility_TargetLock::TryLockOnTarget()
