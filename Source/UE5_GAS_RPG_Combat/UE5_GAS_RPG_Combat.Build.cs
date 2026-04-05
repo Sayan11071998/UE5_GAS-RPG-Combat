@@ -21,7 +21,8 @@ public class UE5_GAS_RPG_Combat : ModuleRules
 			"AIModule",
 			"AnimGraphRuntime",
 			"MotionWarping",
-			"Niagara"
+			"Niagara",
+			"GameplayAbilities"
 		});
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
