@@ -135,3 +135,14 @@ bool UUGRC_FunctionLibrary::IsValidBlock(AActor* InAttacker, AActor* InDefender)
 	
 	return DotResult < -0.1f;
 }
+
+bool UUGRC_FunctionLibrary::ApplyGameplayEffectSpecHandleToTargetActor(AActor* InInstigator, AActor* InTargetActor,
+	const FGameplayEffectSpecHandle& InSpecHandle)
+{
+	UUGRC_AbilitySystemComponent* SourceASC = NativeGetWarriorASCFromActor(InInstigator);
+	UUGRC_AbilitySystemComponent* TargetASC = NativeGetWarriorASCFromActor(InTargetActor);
+	
+	FActiveGameplayEffectHandle ActiveGameplayEffectHandle = SourceASC->ApplyGameplayEffectSpecToTarget(*InSpecHandle.Data, TargetASC);
+	
+	return ActiveGameplayEffectHandle.WasSuccessfullyApplied();
+}

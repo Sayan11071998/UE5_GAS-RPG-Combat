@@ -9,6 +9,7 @@
 class UUGRC_AbilitySystemComponent;
 class UUGRC_PawnCombatComponent;
 struct FScalableFloat;
+struct FGameplayEffectSpecHandle;
 
 UCLASS()
 class UE5_GAS_RPG_COMBAT_API UUGRC_FunctionLibrary : public UBlueprintFunctionLibrary
@@ -43,4 +44,7 @@ public:
 	
 	UFUNCTION(BlueprintPure, Category = "UGRC|FunctionLibrary")
 	static bool IsValidBlock(AActor* InAttacker, AActor* InDefender);
+	
+	UFUNCTION(BlueprintCallable, Category = "UGRC|FunctionLibrary")
+	static bool ApplyGameplayEffectSpecHandleToTargetActor(AActor* InInstigator, AActor* InTargetActor, const FGameplayEffectSpecHandle& InSpecHandle);
 };
