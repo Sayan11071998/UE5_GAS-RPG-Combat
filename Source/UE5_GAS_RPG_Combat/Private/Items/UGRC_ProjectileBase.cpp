@@ -44,6 +44,8 @@ void AUGRC_ProjectileBase::BeginPlay()
 void AUGRC_ProjectileBase::OnProjectileHit(UPrimitiveComponent* HitComponent, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
+	BP_OnSpawnProjectileHitFX(Hit.ImpactPoint);
+	
 	APawn* HitPawn = Cast<APawn>(OtherActor);
 	
 	if (!HitPawn || !UUGRC_FunctionLibrary::IsTargetPawnHostile(GetInstigator(), HitPawn))
