@@ -9,11 +9,10 @@ void UUGRC_EnemyCombatComponent::OnHitTargetActor(AActor* HitActor)
 	
 	OverlappedActors.Add(HitActor);
 	
-	// TODO: Implement Block Check
 	bool bIsValidBlock = false;
 	
 	const bool bIsPlayerBlocking = UUGRC_FunctionLibrary::NativeDoesActorHaveTag(HitActor, UGRC_GameplayTags::Player_Status_Blocking);
-	const bool bIsMyAttackUnblockable = false;
+	const bool bIsMyAttackUnblockable = UUGRC_FunctionLibrary::NativeDoesActorHaveTag(GetOwningPawn(), UGRC_GameplayTags::Enemy_Status_Unblockable);
 	
 	if (bIsPlayerBlocking && !bIsMyAttackUnblockable)
 	{
