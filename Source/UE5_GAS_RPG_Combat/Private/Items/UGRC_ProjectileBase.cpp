@@ -2,8 +2,9 @@
 #include "Components/BoxComponent.h"
 #include "NiagaraComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
-
-#include "UGRC_DebugHelper.h"
+#include "UGRC_FunctionLibrary.h"
+#include "UGRC_GameplayTags.h"
+#include "AbilitySystemBlueprintLibrary.h"
 
 AUGRC_ProjectileBase::AUGRC_ProjectileBase()
 {
@@ -43,15 +44,43 @@ void AUGRC_ProjectileBase::BeginPlay()
 void AUGRC_ProjectileBase::OnProjectileHit(UPrimitiveComponent* HitComponent, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
-	if (OtherActor)
+	APawn* HitPawn = Cast<APawn>(OtherActor);
+	
+	if (!HitPawn || !UUGRC_FunctionLibrary::IsTargetPawnHostile(GetInstigator(), HitPawn))
 	{
-		Debug::Print(OtherActor->GetActorNameOrLabel());
 		Destroy();
+		return;
 	}
+	
+	bool bIsValidBlock = false;
+	const bool bIsPlayerBlocking = UUGRC_FunctionLibrary::NativeDoesActorHaveTag(HitPawn, UGRC_GameplayTags::Player_Status_Blocking);
+	
+	if (bIsPlayerBlocking)
+	{
+		bIsValidBlock = UUGRC_FunctionLibrary::IsValidBlock(this, HitPawn);
+	}
+	
+	FGameplayEventData Data;
+	Data.Instigator = this;
+	Data.Target = HitPawn;
+	
+	if (bIsValidBlock)
+	{
+		UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(
+			HitPawn,
+			UGRC_GameplayTags::Player_Event_SuccessfulBlock,
+			Data
+		);
+	}
+	else
+	{
+		// TODO: Apply projectile damage
+	}
+	
+	Destroy();
 }
 
 void AUGRC_ProjectileBase::OnProjectileBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	
 }
