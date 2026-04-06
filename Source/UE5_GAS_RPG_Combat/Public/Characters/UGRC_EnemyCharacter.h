@@ -4,6 +4,7 @@
 #include "Characters/UGRC_BaseCharacter.h"
 #include "UGRC_EnemyCharacter.generated.h"
 
+class UBoxComponent;
 class UWidgetComponent;
 class UUGRC_EnemyCombatComponent;
 class UUGRC_EnemyUIComponent;
@@ -35,15 +36,33 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Combat")
 	TObjectPtr<UUGRC_EnemyCombatComponent> EnemyCombatComponent;
 	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Combat")
+	TObjectPtr<UBoxComponent> LeftHandCollisionBox;
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Combat")
+	TObjectPtr<UBoxComponent> RightHandCollisionBox;
+	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")
 	TObjectPtr<UUGRC_EnemyUIComponent> EnemyUIComponent;
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")
 	TObjectPtr<UWidgetComponent> EnemyHealthWidgetComponent;
 	
+	UFUNCTION()
+	virtual void OnBodyCollisionBoxBeginOverlap(
+		UPrimitiveComponent* OverlappedComponent,
+		AActor* OtherActor,
+		UPrimitiveComponent* OtherComp,
+		int32 OtherBodyIndex,
+		bool bFromSweep,
+		const FHitResult& SweepResult	
+	);
+	
 private:
 	void InitEnemyStartupData();
 	
 public:
 	FORCEINLINE TObjectPtr<UUGRC_EnemyCombatComponent> GetEnemyCombatComponent() const { return EnemyCombatComponent; }
+	FORCEINLINE TObjectPtr<UBoxComponent> GetLeftHandCollisionBox() const { return LeftHandCollisionBox; }
+	FORCEINLINE TObjectPtr<UBoxComponent> GetRightHandCollisionBox() const { return RightHandCollisionBox; }
 };

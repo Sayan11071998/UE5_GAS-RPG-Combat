@@ -17,4 +17,6 @@ void UUGRC_EnemyUIComponent::RemoveEnemyDrawnWidgetsIfAny()
 			DrawnWidget->RemoveFromParent();
 		}
 	}
+	
+	EnemyDrawnWidgets.Empty();
 }
