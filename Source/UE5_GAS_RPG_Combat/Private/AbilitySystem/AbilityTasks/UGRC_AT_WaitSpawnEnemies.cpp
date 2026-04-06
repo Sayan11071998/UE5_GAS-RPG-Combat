@@ -60,7 +60,7 @@ void UUGRC_AT_WaitSpawnEnemies::OnEnemyClassLoaded()
 	UClass* LoadedClass = CachedSoftEnemyClassToSpawn.Get();
 	UWorld* World = GetWorld();
 	
-	if (!LoadedClass || World)
+	if (!LoadedClass || !World)
 	{
 		if (ShouldBroadcastAbilityTaskDelegates())
 		{
