@@ -7,6 +7,7 @@
 #include "DataAssets/StartupData/UGRC_DataAsset_EnemyStartupData.h"
 #include "Components/UI/UGRC_EnemyUIComponent.h"
 #include "Widgets/UGRC_WidgetBase.h"
+#include "UGRC_FunctionLibrary.h"
 
 AUGRC_EnemyCharacter::AUGRC_EnemyCharacter()
 {
@@ -92,6 +93,13 @@ void AUGRC_EnemyCharacter::PostEditChangeProperty(struct FPropertyChangedEvent& 
 void AUGRC_EnemyCharacter::OnBodyCollisionBoxBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
+	if (APawn* HitPawn = Cast<APawn>(OtherActor))
+	{
+		if (UUGRC_FunctionLibrary::IsTargetPawnHostile(this, HitPawn))
+		{
+			EnemyCombatComponent->OnHitTargetActor(HitPawn);
+		}
+	}
 }
 
 void AUGRC_EnemyCharacter::InitEnemyStartupData()
