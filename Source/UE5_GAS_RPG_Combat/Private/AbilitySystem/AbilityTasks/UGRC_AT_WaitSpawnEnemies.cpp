@@ -6,7 +6,7 @@
 
 UUGRC_AT_WaitSpawnEnemies* UUGRC_AT_WaitSpawnEnemies::WaitSpawnEnemies(UGameplayAbility* OwningAbility,
 	FGameplayTag EventTag, TSoftClassPtr<AUGRC_EnemyCharacter> SoftEnemyClassToSpawn, int32 NumToSpawn,
-	const FVector& SpawnOrigin, float RandomSpawnRadius, const FRotator& SpawnRotation)
+	const FVector& SpawnOrigin, float RandomSpawnRadius)
 {
 	UUGRC_AT_WaitSpawnEnemies* Node = NewAbilityTask<UUGRC_AT_WaitSpawnEnemies>(OwningAbility);
 	Node->CachedEventTag = EventTag;
@@ -14,7 +14,6 @@ UUGRC_AT_WaitSpawnEnemies* UUGRC_AT_WaitSpawnEnemies::WaitSpawnEnemies(UGameplay
 	Node->CachedNumToSpawn = NumToSpawn;
 	Node->CachedSpawnOrigin = SpawnOrigin;
 	Node->CachedRandomSpawnRadius = RandomSpawnRadius;
-	Node->CachedSpawnRotation = SpawnRotation;
 	
 	return Node;
 }
@@ -81,8 +80,9 @@ void UUGRC_AT_WaitSpawnEnemies::OnEnemyClassLoaded()
 		UNavigationSystemV1::K2_GetRandomReachablePointInRadius(this, CachedSpawnOrigin, RandomLocation, CachedRandomSpawnRadius);
 		
 		RandomLocation += FVector(0.f, 0.f, 150.f);
+		const FRotator SpawnFacingRotation = AbilitySystemComponent->GetAvatarActor()->GetActorForwardVector().ToOrientationRotator();
 		
-		AUGRC_EnemyCharacter* SpawnedEnemy = World->SpawnActor<AUGRC_EnemyCharacter>(LoadedClass, RandomLocation, CachedSpawnRotation, SpawnParam);
+		AUGRC_EnemyCharacter* SpawnedEnemy = World->SpawnActor<AUGRC_EnemyCharacter>(LoadedClass, RandomLocation, SpawnFacingRotation, SpawnParam);
 	
 		if (SpawnedEnemy)
 		{
