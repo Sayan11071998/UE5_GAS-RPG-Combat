@@ -54,4 +54,6 @@ protected:
 	
 private:
 	void HandleApplyProjectileDamage(TObjectPtr<APawn> InHitPawn, const FGameplayEventData& InPayLoad);
+	
+	TArray<TObjectPtr<AActor>> OverlappedActors;
 };
