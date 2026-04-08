@@ -39,6 +39,11 @@ void AUGRC_ProjectileBase::BeginPlay()
 	{
 		ProjectileCollisionBox->SetCollisionResponseToChannel(ECC_Pawn, ECR_Overlap);
 	}
+	
+	if (GetOwner())
+	{
+		ProjectileCollisionBox->IgnoreActorWhenMoving(GetOwner(), true);
+	}
 }
 
 void AUGRC_ProjectileBase::OnProjectileHit(UPrimitiveComponent* HitComponent, AActor* OtherActor,
