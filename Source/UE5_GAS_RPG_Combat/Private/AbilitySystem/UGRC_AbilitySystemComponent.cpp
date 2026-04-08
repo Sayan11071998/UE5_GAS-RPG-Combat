@@ -10,16 +10,9 @@ void UUGRC_AbilitySystemComponent::OnAbilityInputPressed(const FGameplayTag& InI
 	{
 		if (!AbilitySpec.GetDynamicSpecSourceTags().HasTagExact(InInputTag)) continue;
 		
-		if (InInputTag.MatchesTag(UGRC_GameplayTags::InputTag_Toggleable))
+		if (InInputTag.MatchesTag(UGRC_GameplayTags::InputTag_Toggleable) && AbilitySpec.IsActive())
 		{
-			if (AbilitySpec.IsActive())
-			{
-				CancelAbilityHandle(AbilitySpec.Handle);
-			}
-			else
-			{
-				TryActivateAbility(AbilitySpec.Handle);
-			}
+			CancelAbilityHandle(AbilitySpec.Handle);
 		}
 		else
 		{
