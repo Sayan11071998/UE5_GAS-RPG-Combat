@@ -2,6 +2,8 @@
 #include "AbilitySystemBlueprintLibrary.h"
 #include "UGRC_GameplayTags.h"
 #include "UGRC_FunctionLibrary.h"
+#include "Characters/UGRC_EnemyCharacter.h"
+#include "Components/BoxComponent.h"
 
 void UUGRC_EnemyCombatComponent::OnHitTargetActor(AActor* HitActor)
 {
@@ -38,5 +40,36 @@ void UUGRC_EnemyCombatComponent::OnHitTargetActor(AActor* HitActor)
 			UGRC_GameplayTags::Shared_Event_MeleeHit,
 			EventData
 		);
+	}
+}
+
+void UUGRC_EnemyCombatComponent::ToggleBodyCollisionBoxCollision(bool bShouldEnable,
+	EUGRC_ToggleDamageType ToggleDamageType)
+{
+	AUGRC_EnemyCharacter* OwningEnemyCharacter = GetOwningPawn<AUGRC_EnemyCharacter>();
+	check(OwningEnemyCharacter);
+	
+	UBoxComponent* LeftHandCollisionBox = OwningEnemyCharacter->GetLeftHandCollisionBox();
+	UBoxComponent* RightHandCollisionBox = OwningEnemyCharacter->GetRightHandCollisionBox();
+	
+	check(LeftHandCollisionBox && RightHandCollisionBox);
+
+	switch (ToggleDamageType)
+	{
+	case EUGRC_ToggleDamageType::LeftHand:
+		LeftHandCollisionBox->SetCollisionEnabled(bShouldEnable ? ECollisionEnabled::QueryOnly : ECollisionEnabled::NoCollision);
+		break;
+		
+	case EUGRC_ToggleDamageType::RightHand:
+		RightHandCollisionBox->SetCollisionEnabled(bShouldEnable ? ECollisionEnabled::QueryOnly : ECollisionEnabled::NoCollision);
+		break;
+		
+	default:
+		break;
+	}
+	
+	if (!bShouldEnable)
+	{
+		OverlappedActors.Empty();
 	}
 }

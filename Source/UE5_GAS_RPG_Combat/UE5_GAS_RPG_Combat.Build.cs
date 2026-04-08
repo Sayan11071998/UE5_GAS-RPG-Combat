@@ -22,7 +22,8 @@ public class UE5_GAS_RPG_Combat : ModuleRules
 			"AnimGraphRuntime",
 			"MotionWarping",
 			"Niagara",
-			"GameplayAbilities"
+			"GameplayAbilities",
+			"NavigationSystem"
 		});
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });

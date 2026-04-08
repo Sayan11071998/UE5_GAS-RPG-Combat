@@ -13,4 +13,9 @@ public:
 	// ~ Begin UUGRC_EnemyCombatComponent Interface
 	virtual void OnHitTargetActor(AActor* HitActor) override;
 	// ~ End UUGRC_EnemyCombatComponent Interface
+	
+protected:
+	// ~ Begin UUGRC_PawnCombatComponent Interface
+	virtual void ToggleBodyCollisionBoxCollision(bool bShouldEnable, EUGRC_ToggleDamageType ToggleDamageType) override;
+	// ~ End UUGRC_PawnCombatComponent Interface
 };
