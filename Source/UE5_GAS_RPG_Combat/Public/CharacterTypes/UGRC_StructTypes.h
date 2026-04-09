@@ -23,6 +23,18 @@ struct FUGRC_HeroAbilitySet
 };
 
 USTRUCT(BlueprintType)
+struct FUGRC_HeroSpecialAbilitySet : public FUGRC_HeroAbilitySet
+{
+	GENERATED_BODY()
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TSoftObjectPtr<UMaterialInterface> AbilityIconMaterial;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (Categories = "Player.Cooldown"))
+	FGameplayTag AbilityCooldownTag;
+};
+
+USTRUCT(BlueprintType)
 struct FUGRC_HeroWeaponData
 {
 	GENERATED_BODY()
@@ -36,6 +48,9 @@ public:
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (TitleProperties = "InputTag"))
 	TArray<FUGRC_HeroAbilitySet> DefaultWeaponAbilities;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (TitleProperties = "InputTag"))
+	TArray<FUGRC_HeroSpecialAbilitySet> SpecialWeaponAbilities;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	FScalableFloat WeaponBaseDamage;
