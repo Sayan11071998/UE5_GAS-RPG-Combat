@@ -47,4 +47,7 @@ public:
 	
 	UFUNCTION(BlueprintCallable, Category = "UGRC|FunctionLibrary")
 	static bool ApplyGameplayEffectSpecHandleToTargetActor(AActor* InInstigator, AActor* InTargetActor, const FGameplayEffectSpecHandle& InSpecHandle);
+
+	UFUNCTION(BlueprintCallable, Category = "UGRC|FunctionLibrary", meta = (Latent, WorldContext = "WorldContextObject", LatentInfo = "LatentInfo", ExpandEnumAsExecs = "CountDownInput|CountDownOutput", TotalTime = "1.0", UpdateInterval = "0.1"))
+	static void CountDown(const UObject* WorldContextObject, float TotalTime, float UpdateInterval, float& OutRemainingTime, EUGRC_CountDownActionInput CountDownInput, UPARAM(DisplayName = "output") EUGRC_CountDownActionOutput& CountDownOutput, FLatentActionInfo LatentInfo);
 };

@@ -23,3 +23,18 @@ enum class EUGRC_SuccessType : uint8
 	Successful,
 	Failed
 };
+
+UENUM()
+enum class EUGRC_CountDownActionInput : uint8
+{
+	Start,
+	Cancel
+};
+
+UENUM()
+enum class EUGRC_CountDownActionOutput : uint8
+{
+	Updated,
+	Completed,
+	Cancelled
+};

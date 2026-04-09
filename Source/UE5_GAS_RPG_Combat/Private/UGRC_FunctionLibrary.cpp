@@ -146,3 +146,9 @@ bool UUGRC_FunctionLibrary::ApplyGameplayEffectSpecHandleToTargetActor(AActor* I
 	
 	return ActiveGameplayEffectHandle.WasSuccessfullyApplied();
 }
+
+void UUGRC_FunctionLibrary::CountDown(const UObject* WorldContextObject, float TotalTime, float UpdateInterval,
+	float& OutRemainingTime, EUGRC_CountDownActionInput CountDownInput, EUGRC_CountDownActionOutput& CountDownOutput,
+	FLatentActionInfo LatentInfo)
+{
+}
