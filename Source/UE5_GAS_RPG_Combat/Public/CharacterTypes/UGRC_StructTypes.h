@@ -28,7 +28,7 @@ struct FUGRC_HeroSpecialAbilitySet : public FUGRC_HeroAbilitySet
 	GENERATED_BODY()
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	TSoftObjectPtr<UMaterialInterface> AbilityIconMaterial;
+	TSoftObjectPtr<UMaterialInterface> SoftAbilityIconMaterial;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (Categories = "Player.Cooldown"))
 	FGameplayTag AbilityCooldownTag;

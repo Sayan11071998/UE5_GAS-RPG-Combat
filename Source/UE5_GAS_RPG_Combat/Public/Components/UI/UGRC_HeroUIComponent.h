@@ -2,9 +2,11 @@
 
 #include "CoreMinimal.h"
 #include "Components/UI/UGRC_PawnUIComponent.h"
+#include "UGRC_GameplayTags.h"
 #include "UGRC_HeroUIComponent.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnEquippedWeaponChangedDelegate, TSoftObjectPtr<UTexture2D>, SoftWeaponIcon);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnAbilityIconSlotUpdatedDelegate, FGameplayTag, AbilityInputTag, TSoftObjectPtr<UMaterialInterface>, SoftAbilityIconMaterial);
 
 UCLASS()
 class UE5_GAS_RPG_COMBAT_API UUGRC_HeroUIComponent : public UUGRC_PawnUIComponent
@@ -17,4 +19,7 @@ public:
 	
 	UPROPERTY(BlueprintCallable, BlueprintAssignable)
 	FOnEquippedWeaponChangedDelegate OnEquippedWeaponChanged;
+	
+	UPROPERTY(BlueprintCallable, BlueprintAssignable)
+	FOnAbilityIconSlotUpdatedDelegate OnAbilityIconSlotUpdated;
 };
