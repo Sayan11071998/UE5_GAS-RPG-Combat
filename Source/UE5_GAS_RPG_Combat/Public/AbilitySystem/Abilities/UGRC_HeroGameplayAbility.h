@@ -26,6 +26,9 @@ public:
 	UFUNCTION(BlueprintPure, Category = "UGRC|Ability")
 	FGameplayEffectSpecHandle MakeHeroDamageEffectSpecHandle(TSubclassOf<UGameplayEffect> EffectClass, float InWeaponBaseDamage, FGameplayTag InCurrentAttackTypeTag, int32 InUsedComboCount);
 	
+	UFUNCTION(BlueprintCallable, Category = "UGRC|Ability")
+	bool GetAbilityRemainingCooldownByTag(FGameplayTag InCooldownTag, float& TotalCooldownTime, float& RemainingCooldownTime);
+	
 private:
 	TWeakObjectPtr<AUGRC_HeroCharacter> CachedUGRCHeroCharacter;
 	TWeakObjectPtr<AUGRC_HeroController> CachedUGRCHeroController;
