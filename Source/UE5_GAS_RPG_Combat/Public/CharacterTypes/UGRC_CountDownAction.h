@@ -27,6 +27,10 @@ public:
 	
 	void CancelAction();
 	
+	// Begin ~FPendingLatentAction Interface
+	virtual void UpdateOperation(FLatentResponse& Response) override;
+	// End ~FPendingLatentAction Interface
+	
 private:
 	bool bNeedToCancel;
 	float TotalCountDownTime;
