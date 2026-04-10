@@ -5,6 +5,7 @@
 #include "GenericTeamAgentInterface.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "UGRC_GameplayTags.h"
+#include "CharacterTypes/UGRC_CountDownAction.h"
 
 TObjectPtr<UUGRC_AbilitySystemComponent> UUGRC_FunctionLibrary::NativeGetWarriorASCFromActor(TObjectPtr<AActor> InActor)
 {
@@ -151,4 +152,42 @@ void UUGRC_FunctionLibrary::CountDown(const UObject* WorldContextObject, float T
 	float& OutRemainingTime, EUGRC_CountDownActionInput CountDownInput, EUGRC_CountDownActionOutput& CountDownOutput,
 	FLatentActionInfo LatentInfo)
 {
+	UWorld* World = nullptr;
+	
+	if (GEngine)
+	{
+		World = GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull);
+	}
+	
+	if (!World) return;
+	
+	FLatentActionManager& LatentActionManager = World->GetLatentActionManager();
+	
+	FUGRC_CountDownAction* FoundAction = LatentActionManager.FindExistingAction<FUGRC_CountDownAction>(LatentInfo.CallbackTarget, LatentInfo.UUID);
+
+	if (CountDownInput == EUGRC_CountDownActionInput::Start)
+	{
+		if (!FoundAction)
+		{
+			LatentActionManager.AddNewAction(
+				LatentInfo.CallbackTarget,
+				LatentInfo.UUID,
+				new FUGRC_CountDownAction(
+					TotalTime,
+					UpdateInterval,
+					OutRemainingTime,
+					CountDownOutput,
+					LatentInfo
+				)	
+			);
+		}
+	}
+	
+	if (CountDownInput == EUGRC_CountDownActionInput::Cancel)
+	{
+		if (FoundAction)
+		{
+			FoundAction->CancelAction();
+		}
+	}
 }
