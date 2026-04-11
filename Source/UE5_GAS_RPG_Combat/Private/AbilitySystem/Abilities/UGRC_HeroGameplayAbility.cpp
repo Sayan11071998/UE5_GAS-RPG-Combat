@@ -30,6 +30,11 @@ UUGRC_HeroCombatComponent* UUGRC_HeroGameplayAbility::GetHeroCombatComponentFrom
 	return GetHeroCharacterFromActorInfo()->GetHeroCombatComponent();
 }
 
+UUGRC_HeroUIComponent* UUGRC_HeroGameplayAbility::GetHeroUIComponentFromActorInfo()
+{
+	return GetHeroCharacterFromActorInfo()->GetHeroUIComponent();
+}
+
 FGameplayEffectSpecHandle UUGRC_HeroGameplayAbility::MakeHeroDamageEffectSpecHandle(
 	TSubclassOf<UGameplayEffect> EffectClass, float InWeaponBaseDamage, FGameplayTag InCurrentAttackTypeTag,
 	int32 InUsedComboCount)

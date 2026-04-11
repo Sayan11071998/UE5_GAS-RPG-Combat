@@ -2,12 +2,15 @@
 #include "Kismet/KismetSystemLibrary.h"
 #include "Characters/UGRC_HeroCharacter.h"
 #include "Items/PickUps/UGRC_StoneBase.h"
+#include "Components/UI/UGRC_HeroUIComponent.h"
 
 void UUGRC_HeroAbility_PickupStones::ActivateAbility(const FGameplayAbilitySpecHandle Handle,
 	const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo,
 	const FGameplayEventData* TriggerEventData)
 {
 	Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);
+	
+	GetHeroUIComponentFromActorInfo()->OnStoneInteracted.Broadcast(true);
 }
 
 void UUGRC_HeroAbility_PickupStones::EndAbility(const FGameplayAbilitySpecHandle Handle,
@@ -15,6 +18,8 @@ void UUGRC_HeroAbility_PickupStones::EndAbility(const FGameplayAbilitySpecHandle
 	bool bReplicateEndAbility, bool bWasCancelled)
 {
 	Super::EndAbility(Handle, ActorInfo, ActivationInfo, bReplicateEndAbility, bWasCancelled);
+	
+	GetHeroUIComponentFromActorInfo()->OnStoneInteracted.Broadcast(false);
 }
 
 void UUGRC_HeroAbility_PickupStones::CollectStones()
