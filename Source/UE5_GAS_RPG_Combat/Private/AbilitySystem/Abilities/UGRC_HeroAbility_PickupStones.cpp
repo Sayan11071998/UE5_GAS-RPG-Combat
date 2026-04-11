@@ -49,3 +49,20 @@ void UUGRC_HeroAbility_PickupStones::CollectStones()
 		CancelAbility(GetCurrentAbilitySpecHandle(), GetCurrentActorInfo(), GetCurrentActivationInfo(), true);
 	}
 }
+
+void UUGRC_HeroAbility_PickupStones::ConsumeStones()
+{
+	if (CollectedStones.IsEmpty())
+	{
+		CancelAbility(GetCurrentAbilitySpecHandle(), GetCurrentActorInfo(), GetCurrentActivationInfo(), true);
+		return;
+	}
+	
+	for (AUGRC_StoneBase* CollectedStone : CollectedStones)
+	{
+		if (CollectedStone)
+		{
+			CollectedStone->Consume(GetUGRCAbilitySystemComponentFromActorInfo(), GetAbilityLevel());
+		}
+	}
+}

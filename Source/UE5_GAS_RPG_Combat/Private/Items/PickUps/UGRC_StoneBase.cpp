@@ -3,6 +3,21 @@
 #include "AbilitySystem/UGRC_AbilitySystemComponent.h"
 #include "UGRC_GameplayTags.h"
 
+void AUGRC_StoneBase::Consume(UUGRC_AbilitySystemComponent* AbilitySystemComponent, int32 ApplyLevel)
+{
+	check(StoneGameplayEffectClass);
+	
+	UGameplayEffect* EffectCDO = StoneGameplayEffectClass->GetDefaultObject<UGameplayEffect>();
+	
+	AbilitySystemComponent->ApplyGameplayEffectToSelf(
+		EffectCDO,
+		ApplyLevel,
+		AbilitySystemComponent->MakeEffectContext()
+	);
+	
+	BP_OnStoneConsumed();
+}
+
 void AUGRC_StoneBase::OnPickUpCollisionSphereBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
