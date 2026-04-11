@@ -30,6 +30,11 @@ UUGRC_HeroCombatComponent* UUGRC_HeroGameplayAbility::GetHeroCombatComponentFrom
 	return GetHeroCharacterFromActorInfo()->GetHeroCombatComponent();
 }
 
+UUGRC_HeroUIComponent* UUGRC_HeroGameplayAbility::GetHeroUIComponentFromActorInfo()
+{
+	return GetHeroCharacterFromActorInfo()->GetHeroUIComponent();
+}
+
 FGameplayEffectSpecHandle UUGRC_HeroGameplayAbility::MakeHeroDamageEffectSpecHandle(
 	TSubclassOf<UGameplayEffect> EffectClass, float InWeaponBaseDamage, FGameplayTag InCurrentAttackTypeTag,
 	int32 InUsedComboCount)
@@ -55,4 +60,22 @@ FGameplayEffectSpecHandle UUGRC_HeroGameplayAbility::MakeHeroDamageEffectSpecHan
 	}
 	
 	return EffectSpecHandle;
+}
+
+bool UUGRC_HeroGameplayAbility::GetAbilityRemainingCooldownByTag(FGameplayTag InCooldownTag, float& TotalCooldownTime,
+	float& RemainingCooldownTime)
+{
+	check(InCooldownTag.IsValid());
+	
+	FGameplayEffectQuery CooldownQuery = FGameplayEffectQuery::MakeQuery_MatchAnyOwningTags(InCooldownTag.GetSingleTagContainer());
+	
+	TArray<TPair<float, float>> TimeRemainingAndDuration = GetAbilitySystemComponentFromActorInfo()->GetActiveEffectsTimeRemainingAndDuration(CooldownQuery);
+
+	if (!TimeRemainingAndDuration.IsEmpty())
+	{
+		RemainingCooldownTime = TimeRemainingAndDuration[0].Key;
+		TotalCooldownTime = TimeRemainingAndDuration[0].Value;
+	}
+	
+	return RemainingCooldownTime > 0.f;
 }

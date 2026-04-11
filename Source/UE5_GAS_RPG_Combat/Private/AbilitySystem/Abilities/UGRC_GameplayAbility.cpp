@@ -3,6 +3,8 @@
 #include "Components/Combat/UGRC_PawnCombatComponent.h"
 #include "AbilitySystemBlueprintLibrary.h"
 #include "AbilitySystemGlobals.h"
+#include "UGRC_FunctionLibrary.h"
+#include "UGRC_GameplayTags.h"
 
 void UUGRC_GameplayAbility::OnGiveAbility(const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilitySpec& Spec)
 {
@@ -133,4 +135,36 @@ FActiveGameplayEffectHandle UUGRC_GameplayAbility::BP_ApplyEffectSpecHandleToTar
 	OutSuccessType = ActiveGameplayEffectHandle.WasSuccessfullyApplied() ? EUGRC_SuccessType::Successful : EUGRC_SuccessType::Failed;
 	
 	return ActiveGameplayEffectHandle;
+}
+
+void UUGRC_GameplayAbility::ApplyGameplayEffectSpecHandleToHitResults(const FGameplayEffectSpecHandle& InSpecHandle,
+	const TArray<FHitResult>& InHitResults)
+{
+	if (InHitResults.IsEmpty()) return;
+	
+	APawn* OwningPawn = CastChecked<APawn>(GetAvatarActorFromActorInfo());
+	
+	for (const FHitResult& Hit : InHitResults)
+	{
+		if (APawn* HitPawn = Cast<APawn>(Hit.GetActor()))
+		{
+			if (UUGRC_FunctionLibrary::IsTargetPawnHostile(OwningPawn, HitPawn))
+			{
+				FActiveGameplayEffectHandle ActiveGameplayEffectHandle = NativeApplyEffectSpecHandleToTarget(HitPawn, InSpecHandle);
+				
+				if (ActiveGameplayEffectHandle.WasSuccessfullyApplied())
+				{
+					FGameplayEventData Data;
+					Data.Instigator = OwningPawn;
+					Data.Target = HitPawn;
+					
+					UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(
+						HitPawn,
+						UGRC_GameplayTags::Shared_Event_HitReact,
+						Data
+					);
+				}
+			}
+		}
+	}
 }

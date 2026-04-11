@@ -15,7 +15,12 @@ public:
 	void OnAbilityInputReleased(const FGameplayTag& InInputTag);
 	
 	UFUNCTION(BlueprintCallable, Category = "UGRC|Ability", meta = (ApplyLevel = "1"))
-	void GrantHeroWeaponAbilities(const TArray<FUGRC_HeroAbilitySet>& InDefaultWeaponAbilities, int32 ApplyLevel, TArray<FGameplayAbilitySpecHandle>& OutGrantedAbilitySpecHandles);
+	void GrantHeroWeaponAbilities(
+		const TArray<FUGRC_HeroAbilitySet>& InDefaultWeaponAbilities,
+		const TArray<FUGRC_HeroSpecialAbilitySet>& InSpecialWeaponAbilities,
+		int32 ApplyLevel,
+		TArray<FGameplayAbilitySpecHandle>& OutGrantedAbilitySpecHandles	
+	);
 
 	UFUNCTION(BlueprintCallable, Category = "UGRC|Ability")
 	void RemoveGrantedHeroWeaponAbilities(UPARAM(ref) TArray<FGameplayAbilitySpecHandle>& InSpecHandlesToRemove);

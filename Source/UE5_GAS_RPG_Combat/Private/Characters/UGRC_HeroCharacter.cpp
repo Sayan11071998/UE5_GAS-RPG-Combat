@@ -13,8 +13,6 @@
 #include "Components/UI/UGRC_HeroUIComponent.h"
 #include "AbilitySystemBlueprintLibrary.h"
 
-#include "UGRC_DebugHelper.h"
-
 AUGRC_HeroCharacter::AUGRC_HeroCharacter()
 {
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.f);
@@ -88,6 +86,7 @@ void AUGRC_HeroCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInput
 	
 	UGRCInputComponent->BindNativeInputAction(InputConfigDataAsset, UGRC_GameplayTags::InputTag_SwitchTarget, ETriggerEvent::Triggered, this, &AUGRC_HeroCharacter::Input_SwitchTargetTriggered);
 	UGRCInputComponent->BindNativeInputAction(InputConfigDataAsset, UGRC_GameplayTags::InputTag_SwitchTarget, ETriggerEvent::Completed, this, &AUGRC_HeroCharacter::Input_SwitchTargetCompleted);
+	UGRCInputComponent->BindNativeInputAction(InputConfigDataAsset, UGRC_GameplayTags::InputTag_PickUp_Stones, ETriggerEvent::Started, this, &AUGRC_HeroCharacter::Input_PickUpStonesStarted);
 
 	UGRCInputComponent->BindAbilityInputAction(InputConfigDataAsset, this, &AUGRC_HeroCharacter::Input_AbilityInputPressed, &AUGRC_HeroCharacter::Input_AbilityInputReleased);
 }
@@ -142,6 +141,17 @@ void AUGRC_HeroCharacter::Input_SwitchTargetCompleted(const FInputActionValue& I
 	UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(
 		this,
 		SwitchDirection.X > 0.f ? UGRC_GameplayTags::Player_Event_SwitchTarget_Right : UGRC_GameplayTags::Player_Event_SwitchTarget_Left,
+		Data
+	);
+}
+
+void AUGRC_HeroCharacter::Input_PickUpStonesStarted(const FInputActionValue& InputActionValue)
+{
+	FGameplayEventData Data;
+	
+	UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(
+		this,
+		UGRC_GameplayTags::Player_Event_ConsumeStones,
 		Data
 	);
 }
