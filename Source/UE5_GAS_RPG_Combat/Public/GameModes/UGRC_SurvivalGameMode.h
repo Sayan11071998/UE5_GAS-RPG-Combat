@@ -4,6 +4,8 @@
 #include "GameModes/UGRC_GameModeBase.h"
 #include "UGRC_SurvivalGameMode.generated.h"
 
+class AUGRC_EnemyCharacter;
+
 UENUM(BlueprintType)
 enum class EUGRC_SurvivalGameModeState : uint8
 {
@@ -13,6 +15,33 @@ enum class EUGRC_SurvivalGameModeState : uint8
 	WaveCompleted,
 	AllWavesDone,
 	PlayerDied
+};
+
+USTRUCT(BlueprintType)
+struct FUGRC_EnemyWaveSpawnerInfo
+{
+	GENERATED_BODY()
+	
+	UPROPERTY(EditAnywhere)
+	TSoftClassPtr<AUGRC_EnemyCharacter> SoftEnemyClassToSpawn;
+	
+	UPROPERTY(EditAnywhere)
+	int32 MinPerSpawnCount = 1;
+	
+	UPROPERTY(EditAnywhere)
+	int32 MaxPerSpawnCount = 3;
+};
+
+USTRUCT(BlueprintType)
+struct FUGRC_EnemyWaveSpawnerTableRow : public FTableRowBase
+{
+	GENERATED_BODY()
+	
+	UPROPERTY(EditAnywhere)
+	TArray<FUGRC_EnemyWaveSpawnerInfo> EnemyWaveSpawnerDefinitions;
+	
+	UPROPERTY(EditAnywhere)
+	int32 TotalEnemyToSpawnThisWave = 1;
 };
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnSurvivalGameModeStateChangedDelegate, EUGRC_SurvivalGameModeState, CurrentState);
@@ -34,4 +63,7 @@ private:
 	
 	UPROPERTY(BlueprintAssignable, BlueprintCallable)
 	FOnSurvivalGameModeStateChangedDelegate OnSurvivalGameModeStateChanged;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Wave Definition", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UDataTable> EnemyWaveSpawnerDataTable;
 };
