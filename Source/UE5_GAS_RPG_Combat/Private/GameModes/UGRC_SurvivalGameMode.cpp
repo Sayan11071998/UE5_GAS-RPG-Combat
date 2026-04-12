@@ -68,5 +68,5 @@ void AUGRC_SurvivalGameMode::SetCurrentSurvivalGameModeState(EUGRC_SurvivalGameM
 
 bool AUGRC_SurvivalGameMode::HasFinishedAllWaves() const
 {
-	return CurrentWaveCount >= TotalWavesToSpawn;
+	return CurrentWaveCount > TotalWavesToSpawn;
 }
