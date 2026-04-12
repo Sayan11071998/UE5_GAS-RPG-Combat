@@ -5,8 +5,6 @@
 #include "Engine/TargetPoint.h"
 #include "NavigationSystem.h"
 
-#include "UGRC_DebugHelper.h"
-
 void AUGRC_SurvivalGameMode::BeginPlay()
 {
 	Super::BeginPlay();
@@ -85,6 +83,8 @@ void AUGRC_SurvivalGameMode::PreLoadNextWaveEnemies()
 {
 	if (HasFinishedAllWaves()) return;
 	
+	PreLoadedEnemyClassMap.Empty();
+	
 	for (const FUGRC_EnemyWaveSpawnerInfo& SpawnerInfo : GetCurrentWaveSpawnerTableRow()->EnemyWaveSpawnerDefinitions)
 	{
 		if (SpawnerInfo.SoftEnemyClassToSpawn.IsNull()) continue;
@@ -97,8 +97,6 @@ void AUGRC_SurvivalGameMode::PreLoadNextWaveEnemies()
 					if (UClass* LoadedEnemyClass = SpawnerInfo.SoftEnemyClassToSpawn.Get())
 					{
 						PreLoadedEnemyClassMap.Emplace(SpawnerInfo.SoftEnemyClassToSpawn, LoadedEnemyClass);
-						
-						Debug::Print(LoadedEnemyClass->GetName() + TEXT("is loaded"));
 					}
 				}
 			)
@@ -152,6 +150,8 @@ int32 AUGRC_SurvivalGameMode::TrySpawnWaveEnemies()
 		
 			if (SpawnedEnemy)
 			{
+				SpawnedEnemy->OnDestroyed.AddUniqueDynamic(this, &AUGRC_SurvivalGameMode::OnEnemyDestroyed);
+				
 				EnemiesSpawnedThisTime++;
 				TotalSpawnedEnemiesThisWaveCounter++;
 			}
@@ -166,4 +166,21 @@ int32 AUGRC_SurvivalGameMode::TrySpawnWaveEnemies()
 bool AUGRC_SurvivalGameMode::ShouldKeepSpawnEnemies() const
 {
 	return TotalSpawnedEnemiesThisWaveCounter < GetCurrentWaveSpawnerTableRow()->TotalEnemyToSpawnThisWave;
+}
+
+void AUGRC_SurvivalGameMode::OnEnemyDestroyed(AActor* DestroyedActor)
+{
+	CurrentSpawnedEnemiesCounter--;
+	
+	if (ShouldKeepSpawnEnemies())
+	{
+		CurrentSpawnedEnemiesCounter += TrySpawnWaveEnemies();
+	}
+	else if (CurrentSpawnedEnemiesCounter == 0)
+	{
+		TotalSpawnedEnemiesThisWaveCounter = 0;
+		CurrentSpawnedEnemiesCounter = 0;
+		
+		SetCurrentSurvivalGameModeState(EUGRC_SurvivalGameModeState::WaveCompleted);
+	}
 }
