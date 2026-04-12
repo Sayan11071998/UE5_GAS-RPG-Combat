@@ -51,6 +51,10 @@ class UE5_GAS_RPG_COMBAT_API AUGRC_SurvivalGameMode : public AUGRC_GameModeBase
 {
 	GENERATED_BODY()
 	
+public:
+	UFUNCTION(BlueprintCallable)
+	void RegisterSpawnedEnemies(const TArray<AUGRC_EnemyCharacter*>& InEnemiesToRegister);
+	
 protected:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;

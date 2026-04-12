@@ -70,6 +70,18 @@ void AUGRC_SurvivalGameMode::Tick(float DeltaTime)
 	}
 }
 
+void AUGRC_SurvivalGameMode::RegisterSpawnedEnemies(const TArray<AUGRC_EnemyCharacter*>& InEnemiesToRegister)
+{
+	for (AUGRC_EnemyCharacter* SpawnedEnemy : InEnemiesToRegister)
+	{
+		if (SpawnedEnemy)
+		{
+			CurrentSpawnedEnemiesCounter++;
+			SpawnedEnemy->OnDestroyed.AddUniqueDynamic(this, &AUGRC_SurvivalGameMode::OnEnemyDestroyed);
+		}
+	}
+}
+
 void AUGRC_SurvivalGameMode::SetCurrentSurvivalGameModeState(EUGRC_SurvivalGameModeState InState)
 {
 	CurrentSurvivalGameModeState = InState;
