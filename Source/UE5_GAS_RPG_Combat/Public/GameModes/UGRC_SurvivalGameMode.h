@@ -57,6 +57,7 @@ protected:
 	
 private:
 	void SetCurrentSurvivalGameModeState(EUGRC_SurvivalGameModeState InState);
+	bool HasFinishedAllWaves() const;
 	
 	UPROPERTY()
 	EUGRC_SurvivalGameModeState CurrentSurvivalGameModeState;
@@ -66,4 +67,22 @@ private:
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Wave Definition", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UDataTable> EnemyWaveSpawnerDataTable;
+	
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "Wave Definition", meta = (AllowPrivateAccess = "true"))
+	int32 TotalWavesToSpawn;
+	
+	UPROPERTY()
+	int32 CurrentWaveCount = 1;
+	
+	UPROPERTY()
+	float TimePassedSinceStart = 0.f;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Wave Definition", meta = (AllowPrivateAccess = "true"))
+	float SpawnNewWaveWaitTime = 5.f;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Wave Definition", meta = (AllowPrivateAccess = "true"))
+	float SpawnEnemiesDelayTime = 2.f;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Wave Definition", meta = (AllowPrivateAccess = "true"))
+	float WaveCompletedWaitTime = 5.f;
 };
