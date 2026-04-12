@@ -5,6 +5,8 @@
 #include "Engine/TargetPoint.h"
 #include "NavigationSystem.h"
 
+#include "UGRC_DebugHelper.h"
+
 void AUGRC_SurvivalGameMode::BeginPlay()
 {
 	Super::BeginPlay();
@@ -171,6 +173,8 @@ bool AUGRC_SurvivalGameMode::ShouldKeepSpawnEnemies() const
 void AUGRC_SurvivalGameMode::OnEnemyDestroyed(AActor* DestroyedActor)
 {
 	CurrentSpawnedEnemiesCounter--;
+	
+	Debug::Print(FString::Printf(TEXT("CurrentSpawnedEnemiesCounter: %i, TotalSpawnedEnemiesThisWaveCounter: %i"), CurrentSpawnedEnemiesCounter, TotalSpawnedEnemiesThisWaveCounter));
 	
 	if (ShouldKeepSpawnEnemies())
 	{
