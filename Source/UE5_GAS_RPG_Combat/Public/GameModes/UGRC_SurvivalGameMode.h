@@ -58,6 +58,8 @@ protected:
 private:
 	void SetCurrentSurvivalGameModeState(EUGRC_SurvivalGameModeState InState);
 	bool HasFinishedAllWaves() const;
+	void PreLoadNextWaveEnemies();
+	FUGRC_EnemyWaveSpawnerTableRow* GetCurrentWaveSpawnerTableRow() const;
 	
 	UPROPERTY()
 	EUGRC_SurvivalGameModeState CurrentSurvivalGameModeState;
@@ -85,4 +87,7 @@ private:
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Wave Definition", meta = (AllowPrivateAccess = "true"))
 	float WaveCompletedWaitTime = 5.f;
+	
+	UPROPERTY()
+	TMap<TSoftClassPtr<AUGRC_EnemyCharacter>, TObjectPtr<UClass>> PreLoadedEnemyClassMap;
 };
